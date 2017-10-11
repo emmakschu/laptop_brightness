@@ -18,6 +18,15 @@
  * /usr/local/bin, allowing it to be called directly from the PATH
  */
 
+/*############################################.
+ *          LICENSE INFO                      *
+ *                                            *
+ * This work is released under the GNU GPLv2. *
+ * See the LICENSE file in the application    *
+ * parent directory for more information.     *
+ *############################################*
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -178,55 +187,61 @@ int main (int argc,
   // If there are no CLI-args provided, assume user just wants
   // to show current brightness
   if (argc == 1)
-    {
-      command = "show";
-    }
+  {
+    command = "show";
+  }
   // If there is at least one CLI arg provided, accept it as
   // the command (show, set, inc, or dec)
   if (argc >= 2)
-    {
-      command = argv[1];
-    }
+  {
+    command = argv[1];
+  }
   // If there is a second CLI arg provided, accept it as the
   // parameter (value to SET at, or amount by which to INC or DEC)
   if (argc == 3)
-    {
-      argument = argv[2];
-    }
+  {
+    argument = argv[2];
+  }
       
 
   // If the command is to show, execute the curr_brightness()
   // procedure and print the value
   if (strcmp (command, "show") == 0)
-    {
-      printf ("Current brightness: %d\n", curr_brightness ());
-    }
+  {
+    printf ("Current brightness: %d\n", curr_brightness ());
+  }
 
   // If the command is to set, execute the set_brightness()
   // procedure with CLI-argument as the parameter
   else if (strcmp (command, "set") == 0)
-    {
-      set_brightness (argument);
-      printf ("New brightness: %d\n", curr_brightness ());
-    }
+  {
+    set_brightness (argument);
+    printf ("New brightness: %d\n", curr_brightness ());
+  }
 
-  // If the command is to increase or decrease,
+  // If the command is to increase or decrease, call the
+  // appropriate procedure with the CLI argument
   else if (strcmp (command, "inc") == 0)
-    {
-      inc_brightness (curr_brightness (),
-		      atoi (argument));
-      printf ("New brightness: %d\n", curr_brightness ());
-    }
+  {
+    inc_brightness (curr_brightness (),
+                    atoi (argument));
+    printf ("New brightness: %d\n", curr_brightness ());
+  }
   else if (strcmp (command, "dec") == 0)
-    {
-      dec_brightness (curr_brightness (),
-		      atoi (argument));
-      printf ("New brightness: %d\n", curr_brightness ());
-    }
+  {
+    dec_brightness (curr_brightness (),
+                    atoi (argument));
+    printf ("New brightness: %d\n", curr_brightness ());
+  }
+
+  // If the command is not one of the available options,
+  // print an error message and exit
   else
-    {
-      printf ("ERROR");
-    }
+  {
+    printf ("ERROR: Not an available procedure.\n");
+    printf ("Permitted commands: show, set, inc, dec.\n");
+    exit (1);
+  }
 
   return 0;
 }
